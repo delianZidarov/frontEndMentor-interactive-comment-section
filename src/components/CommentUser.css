@@ -1,0 +1,13 @@
+.user-data-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+.user-image-container {
+  width: 2rem;
+  height: 2rem;
+}
+.user-image-container img {
+  max-width: 100%;
+  max-height: 100%;
+}
