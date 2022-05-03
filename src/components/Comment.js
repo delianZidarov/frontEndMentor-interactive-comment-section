@@ -4,6 +4,7 @@ import CommentReact from "./CommentReact.js";
 import CommentComment from "./CommentComment.js";
 import CommentUser from "./CommentUser.js";
 import CommentVote from "./CommentVote.js";
+import "./Comment.css";
 function Comment({ commentData, currentUser }) {
   const { id, content, createdAt, score, user, replyingTo } = commentData;
   let isCurrentUser = currentUser.username === user.username;
@@ -16,11 +17,19 @@ function Comment({ commentData, currentUser }) {
   console.log("user", user);
   console.log("replies", replyingTo);
   return (
-    <article>
-      <CommentUser userData={user} createdAt={createdAt} />
-      <CommentComment content={content} replyingTo={replyingTo} />
-      <CommentVote score={votes} setVotes={setVotes} />
-      <CommentReact isCurrentUser={isCurrentUser} />
+    <article class="comment-container">
+      <div className="commentUser-component">
+        <CommentUser userData={user} createdAt={createdAt} />
+      </div>
+      <div className="commentComment-component">
+        <CommentComment content={content} replyingTo={replyingTo} />
+      </div>
+      <div className="commentVote-component">
+        <CommentVote score={votes} setVotes={setVotes} />
+      </div>
+      <div className="commentReact-component">
+        <CommentReact isCurrentUser={isCurrentUser} />
+      </div>
     </article>
   );
 }

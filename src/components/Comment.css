@@ -1,0 +1,28 @@
+.comment-container {
+  display: grid;
+  grid-template:
+    "user user" 1fr
+    "content content" auto
+    "vote interact" 1fr / 1fr 1fr;
+  row-gap: 1rem;
+  max-width: 91vw;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+  border-radius: var(--comment-card-radius);
+  background-color: var(--comment-card-bg);
+}
+.commentUser-component {
+  grid-area: user;
+}
+.commentComment-component {
+  grid-area: content;
+}
+.commentVote-component {
+  grid-area: vote;
+}
+.commentReact-component {
+  grid-area: interact;
+  justify-self: end;
+  align-self: center;
+}

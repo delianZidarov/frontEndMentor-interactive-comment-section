@@ -1,11 +1,19 @@
 .user-data-container {
   display: flex;
   align-items: center;
-  gap: 2rem;
+  gap: 1rem;
+}
+.user-data-container h2 {
+  font-weight: 500;
+  font-size: 1rem;
+  color: black;
+}
+.user-data-container p {
+  font-weight: 400;
 }
 .user-image-container {
-  width: 2rem;
-  height: 2rem;
+  width: 2.25rem;
+  height: 2.25rem;
 }
 .user-image-container img {
   max-width: 100%;

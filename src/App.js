@@ -50,11 +50,11 @@ function App() {
   //   );
   // }
   return (
-    <div className="App">
+    <main className="App">
       <h1>Interactive comment section</h1>
       {/* {data.map((comment, i) => recursiveCreate(comment, i))} */}
       <Comment commentData={userComment} currentUser={currentUser} />
-    </div>
+    </main>
   );
 }
 

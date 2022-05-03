@@ -1,0 +1,10 @@
+.user-react-container button {
+  font-weight: 500;
+  border-style: none;
+  color: var(--accent-blue);
+  background-color: var(--comment-card-bg);
+}
+.user-react-container div {
+  display: flex;
+  gap: 1rem;
+}

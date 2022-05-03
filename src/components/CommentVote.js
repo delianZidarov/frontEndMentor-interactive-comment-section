@@ -1,5 +1,5 @@
-import React, { useInsertionEffect } from "react";
 import { useEffect, useRef } from "react";
+import "./CommentVote.css";
 function CommentVote({ score, setVotes }) {
   const renderScore = useRef(score);
   function increaseVoteCount() {
@@ -16,12 +16,12 @@ function CommentVote({ score, setVotes }) {
 
   return (
     <div className="comment-vote-container">
-      <button id=" " onClick={increaseVoteCount}>
-        <img src="./icon-plus.svg" alt="+" />
+      <button onClick={increaseVoteCount}>
+        <img src="./images/icon-plus.svg" alt="+" />
       </button>
       <p>{renderScore.current}</p>
       <button onClick={decreaseVoteCount}>
-        <img src="./icon-minos.svg" alt="-" />
+        <img src="./images/icon-minus.svg" alt="alt-text" />
       </button>
     </div>
   );
