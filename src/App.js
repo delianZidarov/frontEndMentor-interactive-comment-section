@@ -1,8 +1,9 @@
 import "./App.css";
 import Comment from "./components/Comment.js";
 import data from "./data.json";
-let userComment = data.comments[0];
-let currentUser = data.currentUser;
+let tempData = data;
+let userComment = tempData.comments[0];
+let currentUser = tempData.currentUser;
 function App() {
   // let data = [
   //   { name: "bob", message: "hi" },
