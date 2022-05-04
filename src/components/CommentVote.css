@@ -29,7 +29,7 @@
   background-color: var(--main-bg);
 }
 
-.comment-vote-container button img:hover {
+.comment-vote-container button:hover img {
   filter: brightness(0) saturate(100%) invert(39%) sepia(10%) saturate(4078%)
     hue-rotate(202deg) brightness(87%) contrast(89%);
 }

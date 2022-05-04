@@ -7,10 +7,14 @@
   --font: "Rubik", sans-serif;
   --base-line-height: 24px;
   --comment-card-radius: 8px;
+  /* --transition-timings: 0.25s ease-in; */
   --main-bg: #f5f6fa;
   --comment-card-bg: #ffff;
   --text-color-p: #67727e;
   --accent-blue: #5357b6;
+  --accent-red: #ed6368;
+  --accent-blue-pale: #c5c6ef;
+  --accent-red-pale: #ffb8bb;
 }
 html {
   background-color: var(--main-bg);
@@ -19,4 +23,7 @@ main {
   font-family: var(--font);
   line-height: var(--base-line-height);
   color: var(--text-color-p);
+}
+button {
+  cursor: pointer;
 }

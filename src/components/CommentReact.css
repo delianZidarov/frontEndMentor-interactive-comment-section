@@ -1,10 +1,29 @@
 .user-react-container button {
+  display: inline-flex;
   font-weight: 500;
+  gap: 0.5rem;
   border-style: none;
   color: var(--accent-blue);
   background-color: var(--comment-card-bg);
 }
+.user-react-container button:hover {
+  color: var(--accent-blue-pale);
+}
+.user-react-container button:hover img {
+  filter: brightness(0) saturate(100%) invert(82%) sepia(9%) saturate(868%)
+    hue-rotate(201deg) brightness(96%) contrast(95%);
+}
 .user-react-container div {
   display: flex;
   gap: 1rem;
+}
+.user-react-container div button:nth-child(1) {
+  color: var(--accent-red);
+}
+.user-react-container div button:nth-child(1):hover {
+  color: var(--accent-red-pale);
+}
+.user-react-container div button:nth-child(1):hover img {
+  filter: brightness(0) saturate(100%) invert(75%) sepia(10%) saturate(1042%)
+    hue-rotate(308deg) brightness(101%) contrast(106%);
 }

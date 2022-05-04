@@ -19,7 +19,11 @@ function Comment({ commentData, currentUser }) {
   return (
     <article class="comment-container">
       <div className="commentUser-component">
-        <CommentUser userData={user} createdAt={createdAt} />
+        <CommentUser
+          userData={user}
+          isCurrentUser={isCurrentUser}
+          createdAt={createdAt}
+        />
       </div>
       <div className="commentComment-component">
         <CommentComment content={content} replyingTo={replyingTo} />
