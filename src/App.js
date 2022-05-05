@@ -10,11 +10,25 @@ function App() {
 
   const currentUser =
     JSON.parse(localStorage.getItem("user")) || data.currentUser;
+
+  //trial
   let userComment = commentData[0];
 
-  useEffect(() => {
-    localStorage.setItem("commentData", JSON.stringify(commentData));
-  }, commentData);
+  console.log("in app", commentData);
+  function getPostAndUpdate(mapObject, postId, query) {
+    mapObject.map((post) => {
+      if (post.id === postId) {
+        console.log("in post and update before", commentData);
+        post[query.update] = query.value;
+
+        setCommentData(commentData);
+        console.log("in post and update", commentData);
+      }
+      if (post.replies) {
+        getPostAndUpdate(post.replies, postId, query);
+      }
+    });
+  }
   // let data = [
   //   { name: "bob", message: "hi" },
   //   {
@@ -69,6 +83,7 @@ function App() {
         currentUser={currentUser}
         commentDb={commentData}
         setCommentData={setCommentData}
+        getPostAndUpdate={getPostAndUpdate}
       />
     </main>
   );

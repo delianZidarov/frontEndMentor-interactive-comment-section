@@ -6,11 +6,10 @@ import CommentUser from "./CommentUser.js";
 import CommentVote from "./CommentVote.js";
 import UserInput from "./UserInput.js";
 import "./Comment.css";
-function Comment({ commentData, currentUser, commentDb, setCommentData }) {
+function Comment({ commentData, currentUser, commentDb, getPostAndUpdate }) {
   const { id, content, createdAt, score, user, replyingTo } = commentData;
-  let isCurrentUser = currentUser.username === user.username;
+  const isCurrentUser = currentUser.username === user.username;
   /*STATES*/
-  const [votes, setVotes] = useState(score);
   const [isReplying, setIsReplying] = useState(false);
   console.log("boolean", isCurrentUser);
   console.log("id", id);
@@ -21,22 +20,7 @@ function Comment({ commentData, currentUser, commentDb, setCommentData }) {
   console.log("replies", replyingTo);
 
   /*UTILITY FUNCTIONS*/
-  function getPostandUpdate(mapObject, postId, query) {
-    mapObject.map((post) => {
-      if (post.id === postId) {
-        post[query.update] = query.value;
-        setCommentData(commentDb);
-        console.log(commentDb);
-      }
-      if (post.replies) {
-        getPostandUpdate(post.replies, postId, query);
-      }
-    });
-  }
-  getPostandUpdate(commentDb, 3, {
-    update: "content",
-    value: "I'm playing soccer",
-  });
+
   /*BUTTON FUNCTIONS*/
   function openCloseReply() {
     setIsReplying(!isReplying);
@@ -55,7 +39,12 @@ function Comment({ commentData, currentUser, commentDb, setCommentData }) {
           <CommentComment content={content} replyingTo={replyingTo} />
         </div>
         <div className="commentVote-component">
-          <CommentVote score={votes} setVotes={setVotes} />
+          <CommentVote
+            score={score}
+            commentDb={commentDb}
+            getPostAndUpdate={getPostAndUpdate}
+            postId={id}
+          />
         </div>
         <div className="commentReact-component">
           <CommentReact
