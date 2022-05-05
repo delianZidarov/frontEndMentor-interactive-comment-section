@@ -12,8 +12,8 @@
   font-weight: 400;
 }
 .user-image-container {
-  width: 2.25rem;
-  height: 2.25rem;
+  width: 2rem;
+  height: 2rem;
 }
 .user-image-container img {
   max-width: 100%;

@@ -1,7 +1,6 @@
 import React from "react";
 import "./CommentReact.css";
-function CommentReact({ isCurrentUser }) {
-  isCurrentUser = true;
+function CommentReact({ isCurrentUser, openCloseReply }) {
   return (
     <div className="user-react-container">
       {isCurrentUser && (
@@ -17,7 +16,7 @@ function CommentReact({ isCurrentUser }) {
         </div>
       )}
       {!isCurrentUser && (
-        <button className="user-react-button">
+        <button className="user-react-button" onClick={openCloseReply}>
           <img src="./images/icon-reply.svg" alt="reply-icon" />
           Reply
         </button>

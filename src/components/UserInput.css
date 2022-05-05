@@ -1,0 +1,43 @@
+.user-input-container {
+  display: grid;
+  grid-template:
+    "comment comment" 1fr
+    "user button" auto/ 1fr 1fr;
+  max-width: 91vw;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1rem;
+  gap: 1rem;
+  background-color: var(--comment-card-bg);
+  border-radius: var(--comment-card-radius);
+}
+.user-input-container textarea {
+  grid-area: comment;
+  height: 6rem;
+  resize: none;
+  border-style: none;
+  border: 1px solid var(--text-area-border);
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+  line-height: 1.5rem;
+}
+.user-input-container button {
+  grid-area: button;
+  justify-self: end;
+  color: var(--comment-card-bg);
+  height: 48px;
+  width: 100px;
+  background-color: var(--accent-blue);
+  border-style: none;
+  border-radius: 8px;
+}
+.user-input-image-container {
+  grid-area: user;
+  align-self: center;
+  width: 2rem;
+  height: 2rem;
+}
+.user-input-image-container img {
+  max-width: 100%;
+  max-height: 100%;
+}

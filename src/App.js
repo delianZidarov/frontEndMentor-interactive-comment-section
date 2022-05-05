@@ -1,10 +1,20 @@
 import "./App.css";
 import Comment from "./components/Comment.js";
 import data from "./data.json";
-let tempData = data;
-let userComment = tempData.comments[0];
-let currentUser = tempData.currentUser;
+import { useEffect, useState } from "react";
+
 function App() {
+  const [commentData, setCommentData] = useState(
+    JSON.parse(localStorage.getItem("commentData")) || data.comments
+  );
+
+  const currentUser =
+    JSON.parse(localStorage.getItem("user")) || data.currentUser;
+  let userComment = commentData[0];
+
+  useEffect(() => {
+    localStorage.setItem("commentData", JSON.stringify(commentData));
+  }, commentData);
   // let data = [
   //   { name: "bob", message: "hi" },
   //   {
@@ -54,7 +64,12 @@ function App() {
     <main className="App">
       <h1>Interactive comment section</h1>
       {/* {data.map((comment, i) => recursiveCreate(comment, i))} */}
-      <Comment commentData={userComment} currentUser={currentUser} />
+      <Comment
+        commentData={userComment}
+        currentUser={currentUser}
+        commentDb={commentData}
+        setCommentData={setCommentData}
+      />
     </main>
   );
 }

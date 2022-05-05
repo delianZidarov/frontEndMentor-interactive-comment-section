@@ -8,6 +8,8 @@
   max-width: 91vw;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 1rem;
+  margin-bottom: 1rem; /*1.25 desktop*/
   padding: 1rem;
   border-radius: var(--comment-card-radius);
   background-color: var(--comment-card-bg);
