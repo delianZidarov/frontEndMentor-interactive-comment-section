@@ -20,7 +20,41 @@ function Comment({ commentData, currentUser, commentDb, getPostAndUpdate }) {
   console.log("replies", replyingTo);
 
   /*UTILITY FUNCTIONS*/
-
+  function getElapsedTime(date) {
+    const potentialDate = new Date(date);
+    if (!isNaN(potentialDate)) {
+      const timeElapsed = potentialDate - new Date();
+      return elapsedTimeToString(timeElapsed);
+    }
+    return date;
+  }
+  function elapsedTimeToString(milli) {
+    const seconds = milli / 1000;
+    if (seconds < 1) {
+      return "1 second ago";
+    }
+    if (seconds < 60) {
+      return `${Math.floor(seconds)} second(s) ago`;
+    }
+    if (seconds < 3600) {
+      return `${Math.floor(seconds / 60)} minute(s) ago`;
+    }
+    if (seconds < 86400) {
+      return `${Math.floor(seconds / 3600)} hour(s) ago`;
+    }
+    if (seconds < 604800) {
+      return `${Math.floor(seconds / 86400)} day(s) ago`;
+    }
+    if (seconds < 2629743) {
+      return `${Math.floor(seconds / 604800)} week(s) ago`;
+    }
+    if (seconds < 31556926) {
+      return `${Math.floor(seconds / 2629743)} months(s) ago`;
+    }
+    if (seconds > 31556926) {
+      return `${Math.floor(seconds / 31556926)} year(s) ago`;
+    }
+  }
   /*BUTTON FUNCTIONS*/
   function openCloseReply() {
     setIsReplying(!isReplying);
@@ -32,7 +66,7 @@ function Comment({ commentData, currentUser, commentDb, getPostAndUpdate }) {
           <CommentUser
             userData={user}
             isCurrentUser={isCurrentUser}
-            createdAt={createdAt}
+            createdAt={getElapsedTime(createdAt)}
           />
         </div>
         <div className="commentComment-component">
@@ -56,9 +90,11 @@ function Comment({ commentData, currentUser, commentDb, getPostAndUpdate }) {
       {isReplying && (
         <UserInput
           mode="reply"
-          userPicture={currentUser.image.webp}
+          currentUser={currentUser}
           openCloseReply={openCloseReply}
-          userId={id}
+          postId={id}
+          commentDb={commentDb}
+          getPostAndUpdate={getPostAndUpdate}
         />
       )}
     </>
