@@ -10,8 +10,11 @@
   /* --transition-timings: 0.25s ease-in; */
   --main-bg: #f5f6fa;
   --comment-card-bg: #ffff;
+  --delete-modal-bg: #fff;
   --text-color-p: #67727e;
+  --cancel-btn-bg: #67727e;
   --text-area-border: #e9ebf0;
+  --delet-modal-title-color: #334253;
   --accent-blue: #5357b6;
   --accent-red: #ed6368;
   --accent-blue-pale: #c5c6ef;

@@ -1,7 +1,8 @@
 import "./App.css";
 import Comment from "./components/Comment.js";
+import UserInput from "./components/UserInput.js";
 import data from "./data.json";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 function App() {
   const [commentData, setCommentData] = useState(
@@ -13,9 +14,14 @@ function App() {
 
   //trial
   let userComment = commentData[0];
-
-  console.log("in app", commentData);
-
+  /*DATA MANIP FUNCTIONS*/
+  function addPost(newPost) {
+    setCommentData([...commentData, newPost]);
+    localStorage.setItem(
+      "commentData",
+      JSON.stringify([...commentData, newPost])
+    );
+  }
   function getPostAndUpdate(mapObject, postId, query) {
     mapObject.map((post) => {
       if (post.id === postId) {
@@ -27,62 +33,46 @@ function App() {
       }
     });
   }
-  // let data = [
-  //   { name: "bob", message: "hi" },
-  //   {
-  //     name: "carla",
-  //     message: "hello",
-  //     replies: [
-  //       { name: "bob", message: "hi" },
-  //       { name: "mike", message: "hi" },
-  //     ],
-  //   },
-  //   {
-  //     name: "maria",
-  //     message: "hello",
-  //     replies: [
-  //       {
-  //         name: "jessica",
-  //         message: "hi",
-  //         replies: [{ name: "chad", message: "hi" }],
-  //       },
-  //     ],
-  //   },
-  // ];
-  // function makeComment(comment, i) {
-  //   return (
-  //     <div key={i}>
-  //       <h2>{comment.name}</h2>
-  //       <p>{comment.message}</p>
-  //     </div>
-  //   );
-  // }
-  // function recursiveCreate(comment, i) {
-  //   if (comment.replies == null || comment.replies.length === 0) {
-  //     return makeComment(comment, i);
-  //   }
-  //   return (
-  //     <>
-  //       {makeComment(comment, i)}
-  //       <ul>
-  //         <li>
-  //           {comment.replies.map((comment, i) => recursiveCreate(comment, i))}
-  //         </li>
-  //       </ul>
-  //     </>
-  //   );
-  // }
+  function deleteItem(mapO, postId) {
+    let post;
+    let stringDb = JSON.stringify(mapO);
+    let newDb;
+    getPost(mapO, postId);
+    try {
+      newDb = JSON.parse(stringDb.replace(JSON.stringify(post), ""));
+    } catch {
+      newDb = JSON.parse(stringDb.replace(JSON.stringify(post) + ",", ""));
+    }
+    localStorage.setItem("commentData", JSON.stringify(newDb));
+    setCommentData(newDb);
+    function getPost(mapO, id) {
+      if (post == undefined) {
+        mapO.forEach((object) => {
+          if (object.id === id) {
+            post = object;
+          }
+          if (object.replies) {
+            getPost(object.replies, id);
+          }
+        });
+      }
+    }
+  }
+
   return (
     <main className="App">
       <h1>Interactive comment section</h1>
-      {/* {data.map((comment, i) => recursiveCreate(comment, i))} */}
+
       <Comment
         commentData={userComment}
         currentUser={currentUser}
         commentDb={commentData}
         setCommentData={setCommentData}
         getPostAndUpdate={getPostAndUpdate}
+        deleteItem={deleteItem}
       />
+
+      <UserInput mode="send" currentUser={currentUser} addPost={addPost} />
     </main>
   );
 }

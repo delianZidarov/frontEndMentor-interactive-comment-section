@@ -5,19 +5,21 @@ import CommentComment from "./CommentComment.js";
 import CommentUser from "./CommentUser.js";
 import CommentVote from "./CommentVote.js";
 import UserInput from "./UserInput.js";
+import DeleteModal from "./DeleteModal.js";
 import "./Comment.css";
-function Comment({ commentData, currentUser, commentDb, getPostAndUpdate }) {
+function Comment({
+  commentData,
+  currentUser,
+  commentDb,
+  getPostAndUpdate,
+  deleteItem,
+}) {
   const { id, content, createdAt, score, user, replyingTo } = commentData;
   const isCurrentUser = currentUser.username === user.username;
   /*STATES*/
   const [isReplying, setIsReplying] = useState(false);
-  console.log("boolean", isCurrentUser);
-  console.log("id", id);
-  console.log("content", content);
-  console.log("createdAt", createdAt);
-  console.log("score", score);
-  console.log("user", user);
-  console.log("replies", replyingTo);
+  const [isEditing, setIsEditing] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   /*UTILITY FUNCTIONS*/
   function getElapsedTime(date) {
@@ -59,6 +61,13 @@ function Comment({ commentData, currentUser, commentDb, getPostAndUpdate }) {
   function openCloseReply() {
     setIsReplying(!isReplying);
   }
+  function openCloseEdit() {
+    setIsEditing(!isEditing);
+  }
+  function openCloseDeleteModal() {
+    setOpenDeleteModal(!openDeleteModal);
+  }
+
   return (
     <>
       <article className="comment-container" key={id}>
@@ -70,7 +79,19 @@ function Comment({ commentData, currentUser, commentDb, getPostAndUpdate }) {
           />
         </div>
         <div className="commentComment-component">
-          <CommentComment content={content} replyingTo={replyingTo} />
+          {!isEditing && (
+            <CommentComment content={content} replyingTo={replyingTo} />
+          )}
+          {isEditing && (
+            <UserInput
+              mode="update"
+              currentUser={currentUser}
+              openClose={openCloseEdit}
+              postId={id}
+              commentDb={commentDb}
+              getPostAndUpdate={getPostAndUpdate}
+            />
+          )}
         </div>
         <div className="commentVote-component">
           <CommentVote
@@ -84,6 +105,8 @@ function Comment({ commentData, currentUser, commentDb, getPostAndUpdate }) {
           <CommentReact
             isCurrentUser={isCurrentUser}
             openCloseReply={openCloseReply}
+            openCloseEdit={openCloseEdit}
+            openCloseDeleteModal={openCloseDeleteModal}
           />
         </div>
       </article>
@@ -91,10 +114,18 @@ function Comment({ commentData, currentUser, commentDb, getPostAndUpdate }) {
         <UserInput
           mode="reply"
           currentUser={currentUser}
-          openCloseReply={openCloseReply}
+          openClose={openCloseReply}
           postId={id}
           commentDb={commentDb}
           getPostAndUpdate={getPostAndUpdate}
+        />
+      )}
+      {openDeleteModal && (
+        <DeleteModal
+          deleteItem={deleteItem}
+          openCloseDeleteModal={openCloseDeleteModal}
+          postId={id}
+          commentDb={commentDb}
         />
       )}
     </>
