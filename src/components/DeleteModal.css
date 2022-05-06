@@ -15,6 +15,7 @@
   padding-bottom: 1.5rem;
   width: 91%;
   height: 34%;
+  z-index: 10000;
   border-radius: 8px;
   background-color: var(--delete-modal-bg);
 }
@@ -46,4 +47,7 @@
 }
 .modal-contents div button:nth-child(2) {
   background-color: var(--accent-red);
+}
+.modal-contents div button:hover {
+  filter: brightness(120%);
 }

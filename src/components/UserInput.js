@@ -13,7 +13,8 @@ function UserInput({
   const [dataInput, setDataInput] = useState({ comment: "" });
   useEffect(() => {
     if (mode === "update") {
-      setDataInput({ comment: getCurrentPost(commentDb, postId).content });
+      let post = getPost(commentDb, postId);
+      setDataInput({ comment: post.content });
     }
   }, []);
   function handleInputChange(event) {
@@ -40,8 +41,7 @@ function UserInput({
     openClose();
   }
   function submitReply() {
-    let post;
-    getPost(commentDb, postId);
+    let post = getPost(commentDb, postId);
     getPostAndUpdate(commentDb, postId, {
       update: "replies",
       value: post.replies
@@ -73,30 +73,23 @@ function UserInput({
     });
     localStorage.setItem("commentData", JSON.stringify(commentDb));
     openClose();
-
-    function getPost(mapO, id) {
-      if (post == undefined) {
+  }
+  function getPost(mapO, id) {
+    let storage;
+    function findPost(mapO, id) {
+      if (storage == undefined) {
         mapO.forEach((object) => {
           if (object.id === id) {
-            post = object;
+            storage = { ...object };
           }
           if (object.replies) {
-            getPost(object.replies, id);
+            findPost(object.replies, id);
           }
         });
       }
     }
-  }
-  function getCurrentPost(mapObject, postId) {
-    let returnPost;
-    mapObject.map((post) => {
-      if (post.id === postId) {
-        returnPost = post;
-      } else if (post.replies) {
-        getCurrentPost(post.replies, postId);
-      }
-    });
-    return returnPost;
+    findPost(mapO, id);
+    return storage;
   }
 
   return (

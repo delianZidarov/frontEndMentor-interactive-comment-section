@@ -5,21 +5,22 @@ import CommentComment from "./CommentComment.js";
 import CommentUser from "./CommentUser.js";
 import CommentVote from "./CommentVote.js";
 import UserInput from "./UserInput.js";
-import DeleteModal from "./DeleteModal.js";
 import "./Comment.css";
 function Comment({
   commentData,
   currentUser,
   commentDb,
   getPostAndUpdate,
-  deleteItem,
+  openCloseDeleteModal,
+  wrapperForSetDelete,
 }) {
   const { id, content, createdAt, score, user, replyingTo } = commentData;
   const isCurrentUser = currentUser.username === user.username;
+
   /*STATES*/
   const [isReplying, setIsReplying] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
+
   /*UTILITY FUNCTIONS*/
   function getElapsedTime(date) {
     const potentialDate = new Date(date);
@@ -64,9 +65,6 @@ function Comment({
   function openCloseEdit() {
     setIsEditing(!isEditing);
   }
-  function openCloseDeleteModal() {
-    setOpenDeleteModal(!openDeleteModal);
-  }
 
   return (
     <>
@@ -107,6 +105,8 @@ function Comment({
             openCloseReply={openCloseReply}
             openCloseEdit={openCloseEdit}
             openCloseDeleteModal={openCloseDeleteModal}
+            wrapperForSetDelete={wrapperForSetDelete}
+            postId={id}
           />
         </div>
       </article>
@@ -118,14 +118,6 @@ function Comment({
           postId={id}
           commentDb={commentDb}
           getPostAndUpdate={getPostAndUpdate}
-        />
-      )}
-      {openDeleteModal && (
-        <DeleteModal
-          deleteItem={deleteItem}
-          openCloseDeleteModal={openCloseDeleteModal}
-          postId={id}
-          commentDb={commentDb}
         />
       )}
     </>

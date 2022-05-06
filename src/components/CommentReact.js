@@ -5,12 +5,20 @@ function CommentReact({
   openCloseReply,
   openCloseEdit,
   openCloseDeleteModal,
+  wrapperForSetDelete,
+  postId,
 }) {
   return (
     <div className="user-react-container">
       {isCurrentUser && (
         <div>
-          <button className="user-react-button" onClick={openCloseDeleteModal}>
+          <button
+            className="user-react-button"
+            onClick={() => {
+              wrapperForSetDelete(postId);
+              openCloseDeleteModal();
+            }}
+          >
             <img src="./images/icon-delete.svg" alt="delete-icon" />
             Delete
           </button>

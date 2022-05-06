@@ -31,6 +31,9 @@
   border-style: none;
   border-radius: 8px;
 }
+.user-input-container button:hover {
+  background-color: var(--accent-blue-pale);
+}
 .user-input-image-container {
   grid-area: user;
   align-self: center;
