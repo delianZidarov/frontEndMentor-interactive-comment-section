@@ -20,16 +20,16 @@ function Comment({
   const [isReplying, setIsReplying] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
-
   /*UTILITY FUNCTIONS*/
   function getElapsedTime(date) {
     const potentialDate = new Date(date);
     if (!isNaN(potentialDate)) {
-      const timeElapsed = potentialDate - new Date();
+      const timeElapsed = new Date() - potentialDate;
       return elapsedTimeToString(timeElapsed);
     }
     return date;
   }
+
   function elapsedTimeToString(milli) {
     const seconds = milli / 1000;
     if (seconds < 1) {

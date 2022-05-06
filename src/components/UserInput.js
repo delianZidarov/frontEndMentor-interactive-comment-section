@@ -19,8 +19,7 @@ function UserInput({
   function handleInputChange(event) {
     setDataInput({ comment: event.target.value });
   }
-  function submitComment(event) {
-    event.preventDefault();
+  function submitComment() {
     let newPost = {
       id: Date.now().toString(36) + Math.random().toString(36).substr(2),
       content: dataInput.comment,
@@ -32,8 +31,7 @@ function UserInput({
     addPost(newPost);
     setDataInput({ comment: "" });
   }
-  function submitEdit(event) {
-    event.preventDefault();
+  function submitEdit() {
     getPostAndUpdate(commentDb, postId, {
       update: "content",
       value: dataInput.comment,
@@ -41,42 +39,53 @@ function UserInput({
     localStorage.setItem("commentData", JSON.stringify(commentDb));
     openClose();
   }
-  function submitReply(event) {
-    event.preventDefault();
-    /* {
-      "id": 1,
-      "content": "Impressive! Though it seems the drag feature could be improved. But overall it looks incredible. You've nailed the design and the responsiveness at various breakpoints works really well.",
-      "createdAt": "1 month ago",
-      "score": 12,
-      "user": {
-        "image": { 
-          "png": "./images/avatars/image-amyrobson.png",
-          "webp": "./images/avatars/image-amyrobson.webp"
-        },
-        "username": "amyrobson"
-      },
-      "replies": []
-    }, */
-    const post = getCurrentPost(commentDb, postId);
-    console.log("current post get", getCurrentPost(commentDb, postId));
+  function submitReply() {
+    let post;
+    getPost(commentDb, postId);
     getPostAndUpdate(commentDb, postId, {
       update: "replies",
-      value: [
-        ...post.replies,
-        {
-          id: Date.now().toString(36) + Math.random().toString(36).substr(2),
-          content: dataInput.comment,
-          createdAt: new Date(),
-          user: currentUser,
-          score: 0,
-          replies: [],
-          replyingTo: post.user.username,
-        },
-      ],
+      value: post.replies
+        ? [
+            ...post.replies,
+            {
+              id:
+                Date.now().toString(36) + Math.random().toString(36).substr(2),
+              content: dataInput.comment,
+              createdAt: new Date(),
+              user: currentUser,
+              score: 0,
+              replies: [],
+              replyingTo: post.user.username,
+            },
+          ]
+        : [
+            {
+              id:
+                Date.now().toString(36) + Math.random().toString(36).substr(2),
+              content: dataInput.comment,
+              createdAt: new Date(),
+              user: currentUser,
+              score: 0,
+              replies: [],
+              replyingTo: post.user.username,
+            },
+          ],
     });
     localStorage.setItem("commentData", JSON.stringify(commentDb));
-    console.log(dataInput.comment);
     openClose();
+
+    function getPost(mapO, id) {
+      if (post == undefined) {
+        mapO.forEach((object) => {
+          if (object.id === id) {
+            post = object;
+          }
+          if (object.replies) {
+            getPost(object.replies, id);
+          }
+        });
+      }
+    }
   }
   function getCurrentPost(mapObject, postId) {
     let returnPost;

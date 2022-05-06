@@ -2,7 +2,7 @@ import "./App.css";
 import Comment from "./components/Comment.js";
 import UserInput from "./components/UserInput.js";
 import data from "./data.json";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [commentData, setCommentData] = useState(
@@ -38,13 +38,17 @@ function App() {
     let stringDb = JSON.stringify(mapO);
     let newDb;
     getPost(mapO, postId);
-    try {
-      newDb = JSON.parse(stringDb.replace(JSON.stringify(post), ""));
-    } catch {
-      newDb = JSON.parse(stringDb.replace(JSON.stringify(post) + ",", ""));
-    }
-    localStorage.setItem("commentData", JSON.stringify(newDb));
-    setCommentData(newDb);
+    // try {
+    //   console.log(
+    //     "IN TRY",
+    //     JSON.parse(stringDb.replace(JSON.stringify(post), ""))
+    //   );
+    //   newDb = JSON.parse(stringDb.replace(JSON.stringify(post), ""));
+    // } catch {
+    //   newDb = JSON.parse(stringDb.replace(JSON.stringify(post) + ",", ""));
+    //   console.log("IN CATCH", newDb);
+    // }
+    console.log("hi");
     function getPost(mapO, id) {
       if (post == undefined) {
         mapO.forEach((object) => {
@@ -58,21 +62,60 @@ function App() {
       }
     }
   }
+  function renderPostTree(allPostData) {
+    let posts = allPostData.map((post) => {
+      if (post.replies && post.replies.length > 0) {
+        return (
+          <>
+            <Comment
+              commentData={post}
+              currentUser={currentUser}
+              commentDb={commentData}
+              setCommentData={setCommentData}
+              getPostAndUpdate={getPostAndUpdate}
+              deleteItem={deleteItem}
+              key={post.id}
+            />
+            <div className="replies" key={`${post.id}-replies`}>
+              {renderPostTree(post.replies)}{" "}
+            </div>
+          </>
+        );
+      }
+
+      return (
+        <>
+          <Comment
+            commentData={post}
+            currentUser={currentUser}
+            commentDb={commentData}
+            setCommentData={setCommentData}
+            getPostAndUpdate={getPostAndUpdate}
+            deleteItem={deleteItem}
+            key={post.id}
+          />
+        </>
+      );
+    });
+    return posts;
+  }
 
   return (
     <main className="App">
-      <h1>Interactive comment section</h1>
+      {/*    <h1>Interactive comment section</h1>
 
-      <Comment
-        commentData={userComment}
-        currentUser={currentUser}
-        commentDb={commentData}
-        setCommentData={setCommentData}
-        getPostAndUpdate={getPostAndUpdate}
-        deleteItem={deleteItem}
-      />
-
-      <UserInput mode="send" currentUser={currentUser} addPost={addPost} />
+       <Comment
+         commentData={userComment}
+         currentUser={currentUser}
+         commentDb={commentData}
+         setCommentData={setCommentData}
+         getPostAndUpdate={getPostAndUpdate}
+         deleteItem={deleteItem}
+       /> */}
+      <ul>{renderPostTree(commentData)}</ul>
+      <div className="make-comment-container">
+        <UserInput mode="send" currentUser={currentUser} addPost={addPost} />
+      </div>
     </main>
   );
 }

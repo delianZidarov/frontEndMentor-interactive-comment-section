@@ -6,7 +6,6 @@ function CommentReact({
   openCloseEdit,
   openCloseDeleteModal,
 }) {
-  isCurrentUser = true;
   return (
     <div className="user-react-container">
       {isCurrentUser && (
