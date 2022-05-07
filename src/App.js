@@ -38,46 +38,33 @@ function App() {
   }
   function deleteItem(mapO, postId) {
     console.log("POST ID IN DELETEITEM", postId);
-    let post = getPost(mapO, postId);
-    let stringDb = JSON.stringify(mapO);
-    let stringPost = JSON.stringify(post);
-    let postLength = stringPost.length;
-    let position = { layer: 0, index: 0, length: 0 };
-    let newDb;
-    getPostPath(mapO, postId);
-    console.log("POSITION", position);
-    function getPostPath(mapO, id) {
-      if (post == undefined) {
-        mapO.forEach((object) => {
-          if (object.id === id) {
-            post = object;
-          }
-          if (object.replies) {
-            console.log("IF IN POSITION", position.layer + 1);
-            position.layer = position.layer + 1;
-            position.length = object.replies.length;
-            getPostPath(object.replies, id);
-          }
-        });
-      }
-    }
-    function getPost(mapO, id) {
-      let storage;
-      function findPost(mapO, id) {
-        if (storage == undefined) {
-          mapO.forEach((object) => {
-            if (object.id === id) {
-              storage = { ...object };
-            }
-            if (object.replies) {
-              findPost(object.replies, id);
-            }
-          });
+    let copyAttempt;
+    function deepCopyWithFilter(mapO, postId) {
+      return mapO.flatMap((object) => {
+        if (
+          (object.id !== postId && !object.hasOwnProperty("replies")) ||
+          (object.id !== postId && object.replies.length < 1)
+        ) {
+          return [object];
         }
-      }
-      findPost(mapO, id);
-      return storage;
+        if (object.id !== postId && object.replies.length > 0) {
+          return [
+            {
+              ...object,
+              replies: deepCopyWithFilter(object.replies, postId),
+            },
+          ];
+        }
+        if (object.id === postId) {
+          return [];
+        }
+      });
     }
+    copyAttempt = deepCopyWithFilter(mapO, postId);
+    console.log(
+      "EXPECT ONLY FIRST POST TO APPEAR",
+      deepCopyWithFilter(mapO, postId)
+    );
   }
   // Button FUNCTIONS
   function openCloseDeleteModal() {
