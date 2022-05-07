@@ -63,4 +63,10 @@ button {
   .make-comment-container {
     margin-bottom: 1.5rem;
   }
+  .replies {
+    margin-left: 5.25rem;
+  }
+  .replies:before {
+    left: -2.625rem;
+  }
 }
