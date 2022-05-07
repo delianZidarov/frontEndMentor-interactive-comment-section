@@ -29,6 +29,9 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 91vw;
+  margin-left: auto;
+  margin-right: auto;
   font-family: var(--font);
   line-height: var(--base-line-height);
   color: var(--text-color-p);
@@ -51,4 +54,13 @@ button {
 }
 .make-comment-container {
   width: 100%;
+  margin-bottom: 1rem;
+}
+@media screen and (min-width: 1400px) {
+  main {
+    width: 50vw;
+  }
+  .make-comment-container {
+    margin-bottom: 1.5rem;
+  }
 }

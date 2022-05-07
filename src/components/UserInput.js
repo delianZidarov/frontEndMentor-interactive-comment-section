@@ -46,6 +46,7 @@ function UserInput({
       update: "replies",
       value: post.replies
         ? [
+            ...post.replies,
             {
               id:
                 Date.now().toString(36) + Math.random().toString(36).substr(2),
@@ -56,7 +57,6 @@ function UserInput({
               replies: [],
               replyingTo: post.user.username,
             },
-            ...post.replies,
           ]
         : [
             {
