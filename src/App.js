@@ -37,8 +37,6 @@ function App() {
     });
   }
   function deleteItem(mapO, postId) {
-    console.log("POST ID IN DELETEITEM", postId);
-    let copyAttempt;
     function deepCopyWithFilter(mapO, postId) {
       return mapO.flatMap((object) => {
         if (
@@ -60,11 +58,9 @@ function App() {
         }
       });
     }
-    copyAttempt = deepCopyWithFilter(mapO, postId);
-    console.log(
-      "EXPECT ONLY FIRST POST TO APPEAR",
-      deepCopyWithFilter(mapO, postId)
-    );
+    let updatedDb = deepCopyWithFilter(mapO, postId);
+    setCommentData(updatedDb);
+    localStorage.setItem("commentData", JSON.stringify(updatedDb));
   }
   // Button FUNCTIONS
   function openCloseDeleteModal() {
@@ -73,7 +69,7 @@ function App() {
   function wrapperForSetDelete(id) {
     setDeletePostId(id);
   }
-
+  commentData.sort((a, b) => b.score - a.score);
   function renderPostTree(allPostData) {
     let posts = allPostData.map((post) => {
       if (post.replies && post.replies.length > 0) {
@@ -90,7 +86,7 @@ function App() {
               wrapperForSetDelete={wrapperForSetDelete}
             />
             <div className="replies" key={`${post.id}-replies`}>
-              {renderPostTree(post.replies)}{" "}
+              {renderPostTree(post.replies)}
             </div>
           </React.Fragment>
         );
