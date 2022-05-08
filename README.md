@@ -28,7 +28,7 @@ Users should be able to:
 
 ### Screenshot
 
-![./comment-screenshot.jpg]
+![](./comment-screenshot.jpg)
 
 ### Links
 
